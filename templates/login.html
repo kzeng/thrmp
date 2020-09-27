@@ -1,0 +1,49 @@
+{% extends 'login_base.html' %} {% block css%}
+<style type="text/css">
+
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="form-group">
+                <center>
+                    <br>
+                    <img width="25%" alt="logo" src="{{url_for('static',filename='assets/logo.jpg')}}">
+                    <br>
+                    <h3>温湿度控制记录仪管理平台</h3>
+                    <br>
+                    {% with messages = get_flashed_messages() %}
+                        <div>{{ messages[0] }}</div>
+                    {% endwith %}
+                </center>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" name="userid" id="userid" placeholder="用户名">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success btn-lg btn-block">登录</button>
+        </form>
+
+    </div>
+    <div class="col-md-4">
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+});
+</script>
+{% endblock %}

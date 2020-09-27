@@ -1,0 +1,138 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-6">
+        <h4>仪表高级设置</h4>
+        <table class="table table-hover">
+            <tr>
+                <td style="font-size: 12px" width="25%">仪表编号</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="device_id" />
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">运行时间</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="run_time" />
+                    <span class="unit">天</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">水温设置</td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:200px; height:30px" id="water_temp" />
+                    <span class="unit">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">水温容差</td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:200px; height:30px" id="water_temp1" />
+                    <span class="unit">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">时钟选择</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="clock">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                    </select>
+                </td>
+            </tr>                                    
+            <tr>
+                <td style="font-size: 12px" width="25%">存储单位</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="save_id">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                    </select>
+                </td>
+            </tr>   
+            <tr>
+                <td style="font-size: 12px" width="25%">整点存储</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id='save_point'>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                    </select>
+                </td>
+            </tr>   
+            <tr>
+                <td colspan="3">
+                    <button class="btn btn-primary" id="btn_get">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set">
+                        设置
+                    </button>
+                </td>
+            </tr>
+        
+        </table>
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+function get_advance_setting_param()
+{
+    $.post(
+            "api/get_advance_setting_param", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                // device,run_time,water_temp,water_temp1,clock,save_id,save_point
+                d = data.split(',');
+                $("#device_id").val(d[0]);
+                $("#run_time").val(d[1]);
+                $("#water_temp").val(d[2]);
+                $("#water_temp1").val(d[3]);
+                $('#clock').val( parseInt(d[4]) ).prop('selected',true);
+                $('#save_id').val( parseInt(d[5]) ).prop('selected',true);
+                $('#save_point').val( parseInt(d[6]) ).prop('selected',true);
+            }
+        );
+}
+
+$(document).ready(function() {
+
+    get_advance_setting_param();
+    $("#btn_get").click(function() {
+        get_advance_setting_param();
+    });
+
+    $("#btn_set").click(function() {
+
+        $.post(
+            "api/set_advance_setting_param", {
+                device_id: $("#device_id").val(),
+                run_time: $("#run_time").val(),
+                water_temp: $("#water_temp").val(),
+                water_temp1: $("#water_temp1").val(),
+                clock: $("#clock").val(),
+                save_id: $("#save_id").val(),
+                save_point: $("#save_point").val()
+            },
+            function(data, status) {
+                toastr["success"]("设置成功.");
+                console.log("data: " + data);
+            }
+        );
+    });
+
+
+});
+</script>
+{% endblock %}

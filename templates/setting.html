@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-4">
+
+	  	<h3>设备</h3>
+			<table class="table table-hover table-condensed">
+				<tr>
+					<td>串口号</td>
+					<td>
+						<select id="port_val" style="width:140px; height:30px">
+						</select>
+					</td>
+				</tr>
+				<tr class="hide">
+					<td>波特率</td>
+					<td><input type="text" style="width:140px; height:30px" id="baudrate_val"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button class="btn btn-primary" id="btn_set_device_settings">
+						确定
+						</button>
+					</td>
+				</tr>
+			</table>
+
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+function btn_get_device_settings()
+{
+    $.post(
+                "api/get_device_settings", {
+
+                },
+                function(data, status) {
+                    console.log(data)
+                    d = JSON.parse(data)
+                    console.log(d)
+                    $("#port_val").html(d.port);
+                    // toastr["success"]("数据已设置.");
+                }
+            );
+}
+
+
+$(document).ready(function() {
+
+    btn_get_device_settings();
+
+    $("#btn_set_device_settings").click(function(){
+				device_port_val 	= $("#port_val").val();
+				// device_baudrate_val = $("#baudrate_val").val();
+
+				// if(device_port_val=="" || device_baudrate_val=="")
+				// {
+				// 	alert("Invalid value.");
+				// 	return false;
+				// }
+                $.post(
+                "api/set_device_settings", {
+                    device_port_val: device_port_val,
+                },
+                function(data, status) {
+                    console.log(data)            
+                    toastr["success"]("数据已设置.");
+                }
+            );
+
+		});
+
+});
+
+</script>
+{% endblock %}

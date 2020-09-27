@@ -1,0 +1,17 @@
+
+Flask==1.0.2
+Flask-Script==2.0.6
+Flask-SQLAlchemy==2.3.2
+Jinja2==2.10
+matplotlib==2.2.2
+numpy==1.14.5
+openpyxl==2.5.4
+pandas==0.23.1
+Pillow==5.2.0
+prettytable==0.7.2
+progressbar==2.5
+pyserial==3.4
+PyVISA==1.9.0
+requests==2.19.1
+cx-Freeze==5.1.1
+PyYAML==3.12

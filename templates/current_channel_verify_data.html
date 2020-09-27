@@ -1,0 +1,364 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .title1 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+    .val1{
+        font-size: 14px;
+    }
+    .unit1{
+        font-size: 14px;
+        background-color:#eee;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .title2 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+
+    .val2{
+        font-size: 14px;
+    }
+    .unit2{
+        font-size: 14px;
+    }
+    .val1_run {
+        font-size: 20px;
+        background-color: red;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .val1_not_run {
+        font-size: 20px;
+        background-color: #d8d8d8;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .val1_state {
+        font-size: 20px;
+        /* color: #0de828; */
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background: #0de828;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-3">
+        <h3>CH1</h3>
+        <table class="table">
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='temp_offset_mark_1'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr  style="background-color: #d9534f;">
+                <td width="40%">
+                    <span class="title1">温度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="temp_offset_1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='hum_offset_mark_1'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr  style="background-color: #31b0d5;">
+                <td width="40%">
+                    <span class="title1">湿度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="hum_offset_1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%</span>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="col-md-3">
+        <h3>CH2</h3>
+        <table class="table">
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='temp_offset_mark_2'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr style="background-color: #d9534f;">
+                <td width="40%">
+                    <span class="title1">温度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="temp_offset_2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='hum_offset_mark_2'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr style="background-color: #31b0d5;">
+                <td width="40%">
+                    <span class="title1">湿度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="hum_offset_2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%</span>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="col-md-3">
+        <h3>CH3</h3>
+        <table class="table">
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='temp_offset_mark_3'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr style="background-color: #d9534f;">
+                <td width="40%">
+                    <span class="title1">温度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="temp_offset_3" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='hum_offset_mark_3'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr  style="background-color: #31b0d5;">
+                <td width="40%">
+                    <span class="title1">湿度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="hum_offset_3" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%</span>
+                </td>
+            </tr>
+
+        </table>  
+    </div>
+    
+    <div class="col-md-3">
+        <h3>CH4</h3>
+        <table class="table">
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='temp_offset_mark_4'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr style="background-color: #d9534f;">
+                <td width="40%">
+                    <span class="title1">温度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="temp_offset_4" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr style="background-color:#0de828;">
+                <td width="40%">
+                    <span class="title1">符号</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 120px;" id='hum_offset_mark_4'>
+                        <option value="0">-</option>
+                        <option value="1">+</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr  style="background-color: #31b0d5;">
+                <td width="40%">
+                    <span class="title1">湿度偏移</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="hum_offset_4" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%</span>
+                </td>
+            </tr>
+
+        </table>
+    </div>   
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <td>
+                    <button class="btn btn-primary" id="btn_get" onclick="get_current_channel_verify_data()">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set" onclick="set_current_channel_verify_data()">
+                        设置
+                    </button>
+                </td>
+            </tr>
+            </table>
+    </div>
+</div>
+
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+    function set_current_channel_verify_data()
+    {
+        $.post(
+                "api/set_current_channel_verify_data", {
+                    //ch1
+                    arg1 : $("#temp_offset_mark_1").val(),
+                    arg2 : $("#temp_offset_1").val(),
+                    arg3 : $("#hum_offset_mark_1").val(),
+                    arg4 : $("#hum_offset_1").val(),
+                    //ch2
+                    arg5 : $("#temp_offset_mark_2").val(),
+                    arg6 : $("#temp_offset_2").val(),
+                    arg7 : $("#hum_offset_mark_2").val(),
+                    arg8 : $("#hum_offset_2").val(),
+                    //ch3
+                    arg9 : $("#temp_offset_mark_3").val(),
+                    arg10 : $("#temp_offset_3").val(),
+                    arg11 : $("#hum_offset_mark_3").val(),
+                    arg12 : $("#hum_offset_3").val(),
+                    //ch4
+                    arg13 : $("#temp_offset_mark_4").val(),
+                    arg14 : $("#temp_offset_4").val(),
+                    arg15 : $("#hum_offset_mark_4").val(),
+                    arg16 : $("#hum_offset_4").val(),
+                },
+                function(data, status) {
+                    console.log("data: " + data);
+                    toastr["success"]("数据已设置.");
+                }
+            );
+    }
+
+function get_current_channel_verify_data()
+{
+    $.post(
+            "api/get_current_channel_verify_data", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+
+                    $("#"+ index).val(value);					
+                });
+            }
+        );
+}
+
+
+$(document).ready(function() {
+    get_current_channel_verify_data();
+
+    $("#btn_set").click(function() {
+        set_current_channel_verify_data();
+    });
+
+});
+</script>
+{% endblock %}

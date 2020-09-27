@@ -1,0 +1,706 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .title1 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+    .val1{
+        font-size: 14px;
+    }
+    .unit1{
+        font-size: 14px;
+        background-color:#eee;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .title2 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+
+    .val2{
+        font-size: 14px;
+    }
+    .unit2{
+        font-size: 14px;
+    }
+    .val1_run {
+        font-size: 20px;
+        background-color: red;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .val1_not_run {
+        font-size: 20px;
+        background-color: #d8d8d8;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .val1_state {
+        font-size: 20px;
+        /* color: #0de828; */
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background: #0de828;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-3">
+        <h3>CH1</h3>
+        <table class="table" style="background-color: #d9534f;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标温度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_temp_1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">控温容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_temp_1" />
+                </td>
+                <td>
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_convert_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加热时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_heat_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">化霜时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_frost_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table" style="background-color: #31b0d5;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标湿度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_hum_1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">控湿容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_hum_1" />
+                </td>
+                <td>
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_convert_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加湿时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_start_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">停止时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_stop_time_1" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+        </table>
+
+        <table class="table">
+        <tr>
+            <td>
+                <button class="btn btn-primary" id="btn_get1" onclick="get_channel_control_settings_by_ch(0)">
+                    获取
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-success" id="btn_set1" onclick="set_channel_control_settings_by_ch(0)">
+                    设置
+                </button>
+            </td>
+        </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-3">
+        <h3>CH2</h3>
+        <table class="table" style="background-color: #d9534f;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标温度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_temp_2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">控温容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_temp_2" />
+                </td>
+                <td>
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_convert_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加热时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_heat_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">化霜时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_frost_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table" style="background-color: #31b0d5;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标湿度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_hum_2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">控湿容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_hum_2" />
+                </td>
+                <td>
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_convert_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加湿时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_start_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">停止时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_stop_time_2" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+        </table>
+        <table class="table">
+            <tr>
+                <td>
+                    <button class="btn btn-primary" id="btn_get2" onclick="get_channel_control_settings_by_ch(1)">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set2" onclick="set_channel_control_settings_by_ch(1)">
+                        设置
+                    </button>
+                </td>
+            </tr>
+            </table>
+    </div>
+
+    <div class="col-md-3">
+        <h3>CH3</h3>
+        <table class="table" style="background-color: #d9534f;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标温度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_temp_3" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">控温容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_temp_3" />
+                </td>
+                <td>
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_convert_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加热时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_heat_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">化霜时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_frost_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table" style="background-color: #31b0d5;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标湿度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_hum_3" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">控湿容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_hum_3" />
+                </td>
+                <td>
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_convert_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加湿时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_start_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">停止时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_stop_time_3" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td>
+                    <button class="btn btn-primary" id="btn_get3" onclick="get_channel_control_settings_by_ch(2)">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set3" onclick="set_channel_control_settings_by_ch(2)">
+                        设置
+                    </button>
+                </td>
+            </tr>
+            </table>
+    </div>
+    
+    <div class="col-md-3">
+        <h3>CH4</h3>
+        <table class="table" style="background-color: #d9534f;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标温度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_temp_4" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">控温容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_temp_4" />
+                </td>
+                <td>
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_convert_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加热时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_heat_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">化霜时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="temp_frost_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table" style="background-color: #31b0d5;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">目标湿度</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="target_hum_4" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">控湿容差</span>
+                </td>
+                <td>
+                    <input type="number" max=99 min=0 step=0.1 style="width:120px; height:30px" id="control_hum_4" />
+                </td>
+                <td>
+                    <span class="unit1">%&nbsp;</span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <span class="title1">转换时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_convert_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">加湿时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_start_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <span class="title1">停止时间</span>
+                </td>
+                <td>
+                    <input type="number" max=999 min=0 step=1 style="width:120px; height:30px" id="hum_add_stop_time_4" />
+                </td>
+                <td>
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <td>
+                    <button class="btn btn-primary" id="btn_get4" onclick="get_channel_control_settings_by_ch(3)">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set4" onclick="set_channel_control_settings_by_ch(3)">
+                        设置
+                    </button>
+                </td>
+            </tr>
+            </table>
+    </div>
+
+</div>
+
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+    function set_channel_control_settings_by_ch(ch)
+    {
+        $.post(
+                "api/set_channel_control_settings_by_ch", {
+                    arg0 : ch,
+                    arg1 : $("#target_temp_" + (ch+1)).val(),
+                    arg2: $("#target_hum_" + (ch+1)).val(),
+                    arg3 : $("#control_temp_" + (ch+1)).val(),
+                    arg4 : $("#control_hum_" + (ch+1)).val(),
+                    arg5 : $("#temp_convert_time_" + (ch+1)).val(),
+                    arg6 : $("#hum_convert_time_" + (ch+1)).val(),
+                    arg7 : $("#temp_heat_time_" + (ch+1)).val(),
+                    arg8 : $("#hum_add_start_time_" + (ch+1)).val(),
+                    arg9 : $("#temp_frost_time_" + (ch+1)).val(),
+                    arg10 : $("#hum_add_stop_time_" + (ch+1)).val()
+                },
+                function(data, status) {
+                    console.log("data: " + data);
+                    toastr["success"]("CH"+ (ch+1) +"数据已设置.");
+        
+                }
+            );
+    }
+
+function get_channel_control_settings_by_ch(ch)
+{
+    $.post(
+            "api/get_channel_control_settings_by_ch", {
+                ch:ch
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("CH"+ (ch+1) +"数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+                    $("#"+ index).val(value);					
+                });
+            }
+        );
+}
+
+function get_channel_control_settings()
+{
+    $.post(
+            "api/get_channel_control_settings", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+                    $("#"+ index).val(value);					
+                });
+            }
+        );
+}
+
+$(document).ready(function() {
+    get_channel_control_settings();
+    // $("#btn_get").click(function() {
+    //     get_channel_control_settings();
+    // });
+    $("#btn_set1").click(function() {
+        set_channel_control_settings_by_ch(0);
+    });
+
+    $("#btn_set2").click(function() {
+        set_channel_control_settings_by_ch(1);
+    });
+
+    $("#btn_set3").click(function() {
+        set_channel_control_settings_by_ch(2);
+    });
+
+    $("#btn_set4").click(function() {
+        set_channel_control_settings_by_ch(3);
+    });
+
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,290 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .title1 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+    .val1{
+        font-size: 14px;
+    }
+    .unit1{
+        font-size: 14px;
+        background-color:#eee;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .title2 {
+    font-size: 14px;
+    /* font-weight: bold; */
+    }
+
+    .val2{
+        font-size: 14px;
+    }
+    .unit2{
+        font-size: 14px;
+    }
+    .val1_run {
+        font-size: 20px;
+        background-color: red;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .val1_not_run {
+        font-size: 20px;
+        background-color: #d8d8d8;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .val1_state {
+        font-size: 20px;
+        /* color: #0de828; */
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background: #0de828;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-3">
+        <table class="table" style="background-color: #31b0d5;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">制冷保护</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 100px;" id='cold_protect'>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">制冷模式H1</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=0 step=1 style="width:100px; height:30px" id="cold_mode_h1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">制冷模式H2</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=0 step=1 style="width:100px; height:30px" id="cold_mode_h2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">制冷模式T1</span>
+                </td>
+                <td>
+                    <input type="number" max=99.8 min=0 step=0.1 style="width:100px; height:30px" id="cold_mode_t1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">制冷模式T2</span>
+                </td>
+                <td>
+                    <input type="number" max=99.8 min=0 step=0.1 style="width:100px; height:30px" id="cold_mode_t2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">抽湿时间</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=1 step=1 style="width:100px; height:30px" id="rid_hum_time" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-3">
+        <table class="table" style="background-color: #d9534f;">
+            <tr>
+                <td width="40%">
+                    <span class="title1">加热保护</span>
+                </td>
+                <td>
+                    <select style="height: 30px; width: 100px;" id='heat_protect'>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+                <td  width="25%">
+                </td>
+            </tr>
+            <tr >
+                <td width="40%">
+                    <span class="title1">加热模式H1</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=0 step=1 style="width:100px; height:30px" id="heat_mode_h1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">次</span>
+                </td>
+            </tr>
+            <tr >
+                <td width="40%">
+                    <span class="title1">加热模式H2</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=0 step=1 style="width:100px; height:30px" id="heat_mode_h2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>            
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">加热模式T1</span>
+                </td>
+                <td>
+                    <input type="number" max=99.8 min=0 step=0.1 style="width:100px; height:30px" id="heat_mode_t1" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+            <tr >
+                <td width="40%">
+                    <span class="title1">加热模式T2</span>
+                </td>
+                <td>
+                    <input type="number" max=99.8 min=0 step=0.1 style="width:100px; height:30px" id="heat_mode_t2" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">ºC</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td width="40%">
+                    <span class="title1">抽湿停止</span>
+                </td>
+                <td>
+                    <input type="number" max=998 min=1 step=1 style="width:100px; height:30px" id="rid_hum_stop" />
+                </td>
+                <td  width="25%">
+                    <span class="unit1">分钟</span>
+                </td>
+            </tr>            
+
+        </table>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <td>
+                    <button class="btn btn-primary" id="btn_get" onclick="get_conditioning_settings_param()">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set" onclick="set_conditioning_settings_param()">
+                        设置
+                    </button>
+                </td>
+            </tr>
+            </table>
+    </div>
+</div>
+
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+    function set_air_conditioning_settings_param()
+    {
+        $.post(
+                "api/set_air_conditioning_settings_param", {
+                    arg1 : $("#cold_protect").val(),
+                    arg2 : $("#heat_protect").val(),
+                    arg3 : $("#cold_mode_h1").val(),
+                    arg4 : $("#heat_mode_h1").val(),
+                    arg5 : $("#cold_mode_h2").val(),
+                    arg6 : $("#heat_mode_h2").val(),
+                    arg7 : $("#cold_mode_t1").val(),
+                    arg8 : $("#heat_mode_t1").val(),
+                    arg9 : $("#cold_mode_t2").val(),
+                    arg10 : $("#heat_mode_t2").val(),
+                    arg11 : $("#rid_hum_time").val(),
+                    arg12 : $("#rid_hum_stop").val()
+                },
+                function(data, status) {
+                    console.log("data: " + data);
+                    toastr["success"]("数据已设置.");
+                }
+            );
+    }
+
+function get_air_conditioning_settings_param()
+{
+    $.post(
+            "api/get_air_conditioning_settings_param", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+
+                    $("#"+ index).val(value);					
+                });
+            }
+        );
+}
+
+
+$(document).ready(function() {
+    get_air_conditioning_settings_param();
+
+    $("#btn_set").click(function() {
+        set_air_conditioning_settings_param();
+    });
+
+});
+</script>
+{% endblock %}

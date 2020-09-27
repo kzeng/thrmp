@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon " type="images/x-icon" href="{{ url_for('static', filename='assets/favicon2.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bs3/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fa/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resources/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resources/webview.css') }}">
+
+    <title>{{ title }}</title>
+    {% block css%}
+    <style type="text/css">
+        .container-fluid {
+            margin-right: 50px;
+            margin-left: 50px;
+        }
+
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+   
+    <nav class="navbar navbar-default  navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"> 
+                <!-- <img width="20%" alt="Brand" src="{{url_for('static',filename='assets/logo.jpg')}}">  -->
+                温湿度控制记录仪管理平台
+            </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dashboard"><a href="/dashboard">仪表盘</a></li>
+                <li class="channel_control_settings"><a href="/channel_control_settings">控制参数设置</a></li>
+                <li class="current_channel_verify_data"><a href="/current_channel_verify_data">传感器校正</a></li>
+                <li class="record_data_setting"><a href="/record_data_setting">数据记录设置</a></li>
+                <li class="send_all_area_data"><a href="/send_all_area_data">历史数据查询</a></li>
+
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    高级设置 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="advance_setting_param"><a href="/advance_setting_param">仪表高级设置</a></li>
+                    <li class="humidifier_energy_saving_settings_param"><a href="/humidifier_energy_saving_settings_param">加湿器控制设置</a></li>
+                    <li class="air_conditioning_settings_param"><a href="/air_conditioning_settings_param">空调保护设置</a></li>
+                    <!-- <li class="device_adv_settings"><a href="#">使用时间限制</a></li> -->
+                    <!-- <li role="separator" class="divider"></li> -->
+                    <!-- <li><a href="#" data-toggle="modal" data-target="#myAbout">About ...</a></li> -->
+                </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        系统 <span class="badge">{{ curr_user }}</span> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="setting"><a href="/setting">设置</a></li>
+                        <li role="separator" class="divider"></li>                        
+                        <li class="logout"><a href="/logout">退出</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="about"><a href="#" data-toggle="modal" data-target="#myAbout">关于...</a></li>
+                    </ul>
+                    </li>
+                
+
+            </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <br><br><br><br>
+
+    <div class="modal fade" id="myAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">About</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                  <img width="25%" alt="Brand" src="{{url_for('static',filename='assets/logo.jpg')}}"> 
+                  
+                  <!-- <h3>Webview</h3> -->
+                  <br>
+                  <h4 style="color: #aaa"><b>温湿度控制记录仪管理平台</b></h4>
+                  <br><br>
+                  业务咨询电话: <a href='tel:13007151227'>13007151227</a>
+                  <br>
+                  <h6>V1.0.0 &copy; 2020</h6>
+                  <!-- <button class="btn btn-lg btn-danger" id="btn_restart_gui">
+                  Restart Debug GUI
+                  &nbsp;&nbsp;
+                  <i class="glyphicon glyphicon-repeat"></i>
+                  </button> -->
+                  <br>
+                  </center>
+            </div>
+          </div>
+        </div>
+      </div>
+          
+     
+    <div class="container-fluid">
+
+    {% block body%} {% endblock %}
+
+    <br><br>
+    </div>
+
+    <div class="modal fade" id="myAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">About</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                  <img width="25%" alt="Brand" src="{{url_for('static',filename='assets/logo.jpg')}}"> 
+                  <!-- <h3>Webview</h3> -->
+                  <br>
+                    <h4 style="color: #aaa">
+                    温湿度控制记录仪管理平台
+                    </h4>
+                  <br><br>
+                  <!-- <button class="btn btn-lg btn-danger" id="btn_restart_gui">
+                  Restart Debug GUI
+                  &nbsp;&nbsp;
+                  <i class="glyphicon glyphicon-repeat"></i>
+                  </button> -->
+                  <!-- <br><br> -->
+                  </center>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- <nav class="navbar navbar-default navbar-fixed-bottom">
+    <span style="color:#999">
+    <center>
+        武汉兴达森科技有限公司专业养护室设备 &copy; 2020 <br>
+    </center>
+    </span>
+    </nav> -->
+          
+</body>
+<script src="{{ url_for('static', filename='bs3/js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bs3/js/bootstrap.min.js') }}"></script>
+<!--
+    <script src="{{ url_for('static', filename='echarts/echarts.simple.min.js') }}"></script>
+-->
+<script src="{{ url_for('static', filename='echarts/echarts.min.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='resources/holder.min.js') }}"></script> -->
+<script src="{{ url_for('static', filename='resources/toastr.min.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='layer/layer.js') }}"></script> -->
+
+{% block js%} 
+<script type="text/javascript">
+   toastr.options = {
+        "closeButton": true,
+        "timeOut": 1000,
+        "positionClass": "toast-top-center"
+    }
+
+    function nocontextmenu()
+    {
+        event.cancelBubble = true
+        event.returnValue = false;
+        return false;
+    }
+
+    function norightclick(e){
+        if (window.Event)
+        {
+            if (e.which == 2 || e.which == 3)
+            return false;
+        }
+        else if (event.button == 2 || event.button == 3)
+        {
+            event.cancelBubble = true
+            event.returnValue = false;
+            return false;
+        }
+    }
+
+    $("#btn_restart_gui").click(function() {
+        ret = confirm("Restart GUI. Sure?");
+        if (ret == false) return false;
+        $.post(
+            "api/btn_reconnect", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+            }
+        );
+    });
+
+    $(document).ready(function(){
+        // document.oncontextmenu = nocontextmenu;   // for IE5+
+        // document.onmousedown = norightclick;   // for all others
+        
+        var aid = (window.location.pathname.split("/")[1]).split(".")[0];
+        // alert(aid);
+        if(aid=="")
+            $(".settings").attr('class', 'active');
+         else
+            $("."+aid).attr('class', 'active');
+    });
+</script>
+{% endblock %}
+</html>

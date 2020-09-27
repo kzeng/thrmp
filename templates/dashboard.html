@@ -1,0 +1,610 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .title1 {
+    font-size: 16px;
+    /* font-weight: bold; */
+    }
+    .val1{
+        font-size: 16px;
+    }
+
+    .val1_temp_hum {
+        font-size: 28px;
+        font-weight: bolder;
+        color: red;
+    }
+
+    .val1_temp_hum_null {
+        font-size: 28px;
+        font-weight: bolder;
+        color: #999;
+    }
+
+    .val1_control_temp_hum {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #e6ff00;
+        padding: 6px;
+        border-radius: 6px;
+        color: blue;
+    }
+
+
+    .tag_a {
+        font-size: 14px;
+        background-color:#0de828;
+        border-color: blue;
+        padding: 5px;
+        border-radius: 5px;
+        color:white;
+    }
+
+    .tag_b {
+        font-size: 14px;
+        background-color:cornflowerblue;
+        border-color: blue;
+        padding: 5px;
+        border-radius: 5px;
+        color:#fff;
+    }
+
+    .tag_c {
+        font-size: 14px;
+        background-color:darkorange;
+        border-color: blue;
+        padding: 5px;
+        border-radius: 5px;
+        color:#fff;
+    }
+
+    .unit1{
+        font-size: 16px;
+        background-color:#eee;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .title2 {
+    font-size: 16px;
+    /* font-weight: bold; */
+    }
+
+    .val2{
+        font-size: 16px;
+    }
+    .unit2{
+        font-size: 16px;
+    }
+    .val1_run {
+        font-size: 18px;
+        background-color: red;
+        color:white;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .val1_not_run {
+        font-size: 18px;
+        background-color: #000;
+        color:white;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .val1_state {
+        font-size: 14px;
+        /* color: #0de828; */
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background: #0de828;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+    <div class="col-md-4">
+            <!-- <img width="24%" alt="logo" src="{{url_for('static',filename='assets/logo.jpg')}}"> -->
+        <table class="table">
+            <tr>
+                <td width="25%">
+                    <span class="title1">系统时间</span>
+                </td>
+                <td>
+                    <span class="val1" id="system_time">---</span>
+                </td>
+            </tr>
+            <tr>
+                <td width="25%">
+                    <span class="title1">设备编号</span>
+                </td>
+                <td>
+                    <span class="val1" id="device_id">---</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="title1">运行时间</span>
+                </td>
+                <td>
+                    <span class="val1" id="run_time">---</span>
+                    <span class="unit1" class="pull-right">天</span>
+                </td>
+            </tr>  
+            <tr>
+                <td>
+                    <span class="title1">记录间隔</span>
+                </td>
+                <td>
+                    <span class="val1" id="record_interval">---</span>
+                    <span class="unit1" class="pull-right">小时/次</span>
+                </td>
+            </tr>  
+            <tr>
+                <td>
+                    <span class="title1">当前状态</span>
+                </td>
+                <td>
+                    <span class="val1_run" id="run_status">----</span>
+                </td>
+            </tr>           
+        </table>
+
+        <div id="ch_1_temp" style="width: 350px;height:200px;"></div>
+        <div id="ch_1_hum" style="width: 350px;height:200px;"></div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                CH1 <span class="val1_state pull">开</span>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td width="25%">
+                            <span class="title1">温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="temp_1">---</span>
+        
+                            <span class="pull-right">
+                                <span class="tag_b" id="air_protect_status_1">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td width="10%">
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="hum_1">---</span>
+                            <span class="pull-right">
+                                <span class="tag_c" id="control_output_status_1">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_temp_1">20.0</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_temp_1">1.0</span>
+                            </span>
+                            &nbsp;
+                            <span class="pull-right">
+                                <span class="tag_a" id="control_mode_1">
+                                    ----
+                                </span>
+                                &nbsp;
+                                <span class="tag_a" id="control_method_1">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_hum_1">20.0</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_hum_1">1.0</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ch4 <span class="val1_state">开</span>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td width="25%">
+                            <span class="title1">温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="temp_3">---</span>
+                            
+                            <span class="pull-right">
+                                <span class="tag_b" id="air_protect_status_3">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td width="10%">
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="hum_3">---</span>
+                            <span class="pull-right">
+                                <span class="tag_c" id="control_output_status_3">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_temp_3">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_temp_3">----</span>
+                            </span>
+                            &nbsp;
+                            <span class="pull-right">
+                                <span class="tag_a" id="control_mode_3">
+                                    ----
+                                </span>
+                                &nbsp;
+                                <span class="tag_a" id="control_method_3">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_hum_3">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_hum_3">----</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                CH2 <span class="val1_state">开</span>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td width="25%">
+                            <span class="title1">温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="temp_2">---</span>
+                            <span class="pull-right">
+                                <span class="tag_b" id="air_protect_status_2">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td width="10%">
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="hum_2">---</span>
+                            <span class="pull-right">
+                                <span class="tag_c" id="control_output_status_2">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_temp_2">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_temp_2">----</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_hum_2">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_hum_2">----</span>
+                            </span>
+                            &nbsp;
+                            <span class="pull-right">
+                                <span class="tag_a" id="control_mode_2">
+                                    ----
+                                </span>
+                                &nbsp;
+                                <span class="tag_a" id="control_method_2">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                CH4 <span class="val1_state">开</span>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td width="25%">
+                            <span class="title1">温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="temp_4">---</span>
+                            <span class="pull-right">
+                                <span class="tag_b" id="air_protect_status_4">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td width="10%">
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_temp_hum" id="hum_4">---</span>
+                            <span class="pull-right">
+                                <span class="tag_c" id="control_output_status_4">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定温度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_temp_4">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_temp_4">----</span>
+                            </span>
+                            &nbsp;
+                            <span class="pull-right">
+                                <span class="tag_a" id="control_mode_4">
+                                    ----
+                                </span>
+                                &nbsp;
+                                <span class="tag_a" id="control_method_4">
+                                    ----
+                                </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">ºC</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="title1">设定湿度</span>
+                        </td>
+                        <td>
+                            <span class="val1_control_temp_hum">
+                                <span id="target_hum_4">----</span>
+                                &nbsp; ± &nbsp;
+                                <span id="control_hum_4">----</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="unit1">%&nbsp;</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+var REFRESSH_INTERVALS = 30;
+var t;
+
+var myChart_ch1_temp = echarts.init(document.getElementById('ch_1_temp'));
+var myChart_ch1_hum = echarts.init(document.getElementById('ch_1_hum'));
+
+function get_temp_hum_chart_data_by_ch(ch)
+{
+    $.post(
+            "api/get_temp_hum_chart_data_by_ch", {
+                ch:ch
+            },
+            function(data, status) {
+                d = JSON.parse(data);
+                // console.log("d: " + d);
+                console.log("d0: " + d[0]);
+                console.log("d1: " + d[1]);
+
+                var option1 = {
+                    // color: ['#c23531','#2f4554', '#61a0a8'],
+                    color: ['#c23531'],
+                    title: {
+                        text: 'CH1 温度历史数据'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['温度']
+                    },
+                    xAxis: {
+                        data: d[0]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '时间',
+                        type: 'bar',
+                        data: d[1]
+                    }]
+                };
+                myChart_ch1_temp.setOption(option1);
+
+                //-------------------------------------------------
+                var option1 = {
+                    color: ['#61a0a8'],
+                    title: {
+                       text: 'CH1 湿度历史数据'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['湿度']
+                    },
+                    xAxis: {
+                        data: d[0]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '时间',
+                        type: 'bar',
+                        data: d[2]
+                    }]
+                };
+                myChart_ch1_hum.setOption(option1);
+
+            }
+        );
+}
+
+function dashboard_get_info1()
+{
+    $.post(
+            "api/dashboard_get_info1", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+                        if (value == "hide")
+                            $("#"+ index).hide();	
+                        else
+                            $("#"+ index).html(value);	
+
+                        if (index == "run_status")
+                        {
+                            if (value == "运行")
+                            {
+                                $("#run_status").attr("class", "val1_run");
+
+                            }
+                            else
+                            {
+                                $("#run_status").attr("class", "val1_not_run");
+                            }
+                        }	
+                });
+
+                t = setTimeout(dashboard_get_info1, REFRESSH_INTERVALS * 1000);
+            }
+        );
+}
+
+$(document).ready(function() {
+
+    dashboard_get_info1();
+    get_temp_hum_chart_data_by_ch(1);
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-6">
+        <h4>记录数据设置</h4>
+        <table class="table table-hover">
+            <tr>
+                <td style="font-size: 12px" width="25%">数据记录间隔</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="record_interval" />
+                    <span class="unit">小时</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">数据更新间隔</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="refresh_interval" />
+                    <span class="unit">秒</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">背光亮度</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="light" />
+                    <span class="unit">%</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">休眠时间</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="sleep_time" />
+                    <span class="unit">分</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px" width="25%">自动刷新</td>
+                <td>
+                    <input type="number" max=99 min=0 step=1 style="width:200px; height:30px" id="auto_refresh" />
+                    <span class="unit">分</span>
+                </td>
+            </tr>                                    
+
+            <tr>
+                <td colspan="3">
+                    <button class="btn btn-primary" id="btn_get">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set">
+                        设置
+                    </button>
+                </td>
+            </tr>
+        
+        </table>
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+function get_record_data_setting()
+{
+    $.post(
+            "api/get_record_data_setting", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = data.split(' ');
+                $("#record_interval").val( parseInt(d[3], 16) );
+                $("#refresh_interval").val( parseInt(d[4], 16) );
+                $("#light").val( parseInt(d[5], 16) );
+                $("#sleep_time").val( parseInt(d[6], 16) );
+                $("#auto_refresh").val( parseInt(d[7], 16) );
+            }
+        );
+}
+
+$(document).ready(function() {
+
+    get_record_data_setting();
+    $("#btn_get").click(function() {
+        get_record_data_setting();
+    });
+
+    $("#btn_set").click(function() {
+
+        // record_interval = $("#record_interval").val();
+        // refresh_interval = $("#refresh_interval").val();
+        // light = $("#light").val();
+        // sleep_time = $("#sleep_time").val();
+        // auto_refresh = $("#auto_refresh").val();
+
+        $.post(
+            "api/set_record_data_setting", {
+                record_interval: $("#record_interval").val(),
+                refresh_interval: $("#refresh_interval").val(),
+                light: $("#light").val(),
+                sleep_time: $("#sleep_time").val(),
+                auto_refresh: $("#auto_refresh").val()
+            },
+            function(data, status) {
+                toastr["success"]("设置成功.");
+                console.log("data: " + data);
+            }
+        );
+    });
+
+
+});
+</script>
+{% endblock %}

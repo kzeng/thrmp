@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-12">
+        <h4>
+            历史数据查询
+            
+            <span class="pull-right">
+                
+                <i class="glyphicon glyphicon-stats"></i>
+                <a href="/history_chart">显示图表</a>
+                &nbsp;&nbsp;
+                <i class="glyphicon glyphicon-download-alt"></i>
+                <a href="./static/files/history.csv">下载历史数据</a>
+            </span>
+        </h4>
+        <table class="table table-hover">
+            <tr>
+                <th>时间</th>
+                <th>CH1温度</th>
+                <th>CH1湿度</th>
+                <th>CH2温度</th>
+                <th>CH2湿度</th>
+                <th>CH3温度</th>
+                <th>CH3湿度</th>
+                <th>CH4温度</th>
+                <th>CH4湿度</th>      
+            </tr>
+
+            {% for row_data in all_data %}
+            <tr>
+                <td>
+                  {{ row_data[0] }}
+                </td>
+
+                <!-- ch1 -->
+                <td>
+                    {{ row_data[1] }}
+                </td>
+                <td>
+                    {{ row_data[2] }}
+                </td>
+                <!-- ch2 -->
+                <td>
+                    {{ row_data[3] }}
+                </td>
+                <td>
+                    {{ row_data[4] }}
+                </td>                
+                <!-- ch3 -->
+                <td>
+                    {{ row_data[5] }}
+                </td>
+                <td>
+                    {{ row_data[6] }}
+                </td>                
+                <!-- ch4 -->
+                <td>
+                    {{ row_data[7] }}
+                </td>
+                <td>
+                    {{ row_data[8] }}
+                </td>
+            </tr>
+          {% endfor %}
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+/.vscode
+/.idea
+/build
+/router/__pycache__
+/__pycache__
+/GoogleChromePortable
+/OSFP-DEBUG*.7z
+/*.7z
+/*.bin
+/OSFP-DEBUG*.exe
+/templates/files/*.csv
+/templates/files/*.bin
+/static/files/*.csv

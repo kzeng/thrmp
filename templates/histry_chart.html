@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-4">
+        <!-- <img src="/plot1.png" alt="CH1 DATA"> -->
+        <div id="ch_1_temp" style="width: 450px;height:250px;"></div>
+    </div>
+
+    <div class="col-md-4">
+        <div id="ch_1_hum" style="width: 450px;height:250px;"></div>
+    </div>
+
+    <div class="col-md-4">
+        
+    </div>
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+var myChart_ch1_temp = echarts.init(document.getElementById('ch_1_temp'));
+var myChart_ch1_hum = echarts.init(document.getElementById('ch_1_hum'));
+
+
+function get_temp_hum_chart_data_by_ch(ch)
+{
+    $.post(
+            "api/get_temp_hum_chart_data_by_ch", {
+                ch:ch
+            },
+            function(data, status) {
+                d = JSON.parse(data);
+                // console.log("d: " + d);
+                console.log("d0: " + d[0]);
+                console.log("d1: " + d[1]);
+
+                var option1 = {
+                    // color: ['#c23531','#2f4554', '#61a0a8'],
+                    color: ['#c23531'],
+                    title: {
+                        text: 'CH1 温度历史数据'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['温度']
+                    },
+                    xAxis: {
+                        data: d[0]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '时间',
+                        type: 'bar',
+                        data: d[1]
+                    }]
+                };
+                myChart_ch1_temp.setOption(option1);
+
+                //-------------------------------------------------
+                var option1 = {
+                    color: ['#61a0a8'],
+                    title: {
+                        text: 'CH1 湿度历史数据'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['湿度']
+                    },
+                    xAxis: {
+                        data: d[0]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '时间',
+                        type: 'bar',
+                        data: d[2]
+                    }]
+                };
+                myChart_ch1_hum.setOption(option1);
+
+            }
+        );
+}
+
+
+$(document).ready(function() {
+    get_temp_hum_chart_data_by_ch(1);
+
+});
+</script>
+{% endblock %}

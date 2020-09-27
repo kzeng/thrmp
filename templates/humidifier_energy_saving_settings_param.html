@@ -1,0 +1,158 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-6">
+        <h4>加湿器控制设置</h4>
+        <table class="table table-hover">
+            <tr>
+                <td style="font-size: 12px" width="25%">循环模式</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id='loop_mode'>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>   
+
+            <tr>
+                <td style="font-size: 12px" width="25%">节能模式</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id='save_mode'>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>   
+
+            <tr>
+                <td style="font-size: 12px" width="25%">节能开始时间</td>
+                <td>
+                    <input type="number" max=23 min=0 step=1 style="width:200px; height:30px" id="save_start_time" />
+                </td>
+            </tr>
+
+            <tr>
+                <td style="font-size: 12px" width="25%">节能结束时间</td>
+                <td>
+                    <input type="number" max=23 min=0 step=1 style="width:200px; height:30px" id="save_end_time" />
+                </td>
+            </tr>
+
+            <tr>
+                <td style="font-size: 12px" width="25%">第一路节能</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="ch1_save">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>                                    
+
+            <tr>
+                <td style="font-size: 12px" width="25%">第二路节能</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="ch2_save">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>      
+
+            <tr>
+                <td style="font-size: 12px" width="25%">第三路节能</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="ch3_save">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>      
+
+            <tr>
+                <td style="font-size: 12px" width="25%">第四路节能</td>
+                <td>
+                    <select style="height: 29px; width: 200px;" id="ch4_save">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>                              
+            <tr>
+                <td colspan="3">
+                    <button class="btn btn-primary" id="btn_get">
+                        获取
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-success" id="btn_set">
+                        设置
+                    </button>
+                </td>
+            </tr>
+        
+        </table>
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+
+function set_humidifier_energy_saving_settings_param()
+{
+    $.post(
+            "api/set_humidifier_energy_saving_settings_param", {
+                arg1 : $("#loop_mode").val(),
+                arg2 : $("#save_mode").val(),
+                arg3 : $("#save_start_time").val(),
+                arg4 : $("#save_end_time").val(),
+                arg5 : $("#ch1_save").val(),
+                arg6 : $("#ch2_save").val(),
+                arg7 : $("#ch3_save").val(),
+                arg8 : $("#ch4_save").val(),
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已设置.");
+            }
+        );
+}
+
+function get_humidifier_energy_saving_settings_param()
+{
+    $.post(
+            "api/get_humidifier_energy_saving_settings_param", {
+            },
+            function(data, status) {
+                console.log("data: " + data);
+                toastr["success"]("数据已刷新.");
+                d = JSON.parse(data);
+                $.each(d,function(index,value){
+                    $("#"+ index).val(value);					
+                });
+            }
+        );
+}
+
+$(document).ready(function() {
+
+    get_humidifier_energy_saving_settings_param();
+    $("#btn_get").click(function() {
+        get_humidifier_energy_saving_settings_param();
+    });
+
+    $("#btn_set").click(function() {
+        set_humidifier_energy_saving_settings_param();
+    });
+
+
+});
+</script>
+{% endblock %}
