@@ -65,11 +65,11 @@ def load_user(user_id):
         curr_user.id = user_id
         return curr_user
         
-def start_browser(tname, delay):
-    # print('start: ' + tname)
-    time.sleep(delay)
-    # os.system('start_gui.bat')
-    os.system("..\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe --disable-extensions --app=http://127.0.0.1:5000")
+# def start_browser(tname, delay):
+#     # print('start: ' + tname)
+#     time.sleep(delay)
+#     # os.system('start_gui.bat')
+#     os.system("..\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe --disable-extensions --app=http://127.0.0.1:5000")
 
 def start_server(tname, delay):
     # print('start: ' + tname)
@@ -81,9 +81,9 @@ def start_server(tname, delay):
 
 if __name__ == '__main__':
     try:
-        t1 = threading.Thread(target=start_browser, args=('t1_browser', 3,))
+        # t1 = threading.Thread(target=start_browser, args=('t1_browser', 3,))
         t2 = threading.Thread(target=start_server, args=('t2_server', 1,))
-        t1.start()
+        # t1.start()
         t2.start()
     except:
         print("Error: unable to start thread")

@@ -111,7 +111,7 @@ class Broker(serial.Serial):
         buffer_string = b''
         while True:
             buffer_string = buffer_string + self.read(self.inWaiting())
-            time.sleep(0.001)
+            time.sleep(0.1)
             if self.read(self.inWaiting()) == b'':
                 break
         self.close()
