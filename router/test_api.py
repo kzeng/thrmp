@@ -1,8 +1,9 @@
 import time
 from broker import Broker
 
+
 b = Broker()
-b.port = "COM4"
+# b.port = "COM4"
 
 print("-"*60)
 print("-- API测试：获取参数")
@@ -151,3 +152,4 @@ print("\n")
 
 print("\n")
 print("\n\nALL APIS TEST DONE!")
+

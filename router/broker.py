@@ -9,6 +9,7 @@ class Broker(serial.Serial):
     def __init__(self):
         super(Broker, self).__init__()
         self.baudrate = 57600
+        # self.baudrate = 38400
         # port will get from config file
         cf = configparser.ConfigParser()
         cf.read("Config.ini")
@@ -107,11 +108,11 @@ class Broker(serial.Serial):
         self.open()
         cmd = [0x55, 0x02, 0xFD, 0xAA]
         self.write(cmd)
-        time.sleep(1.5)
+        time.sleep(0.5)
         buffer_string = b''
         while True:
             buffer_string = buffer_string + self.read(self.inWaiting())
-            time.sleep(0.1)
+            # time.sleep(0.1)
             if self.read(self.inWaiting()) == b'':
                 break
         self.close()
