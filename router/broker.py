@@ -105,17 +105,31 @@ class Broker(serial.Serial):
     # 数据存储的策略是先在存储器中开一个小区域用于存放临时的记录数据，存满一个区块的数块的数据后，再统一存在数据存储器中。用于提高效率
     @property
     def send_all_area_data(self):
+        # self.open()
+        # cmd = [0x55, 0x02, 0xFD, 0xAA]
+        # self.write(cmd)
+        # time.sleep(0.5)
+        # buffer_string = b''
+        # while True:
+        #     buffer_string = buffer_string + self.read(self.inWaiting())
+        #     # time.sleep(0.1)
+        #     if self.read(self.inWaiting()) == b'':
+        #         break
+        # self.close()
         self.open()
+        self.flushInput()
+        self.flushOutput()
+
         cmd = [0x55, 0x02, 0xFD, 0xAA]
         self.write(cmd)
         time.sleep(0.5)
         buffer_string = b''
-        while True:
-            buffer_string = buffer_string + self.read(self.inWaiting())
-            # time.sleep(0.1)
-            if self.read(self.inWaiting()) == b'':
-                break
-        self.close()
+        while self.inWaiting() > 0:
+            b=self.read(1)
+            time.sleep(0.0001)
+            buffer_string += b
+
+        self.close()        
         data = ''.join(['%02X ' %x  for x in buffer_string])
         print("DATA: {}".format(data))
         return data
