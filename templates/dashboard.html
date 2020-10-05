@@ -79,17 +79,17 @@
         font-size: 16px;
     }
     .val1_run {
-        font-size: 18px;
+        font-size: 16px;
         background-color: red;
         color:white;
-        border-radius: 5px;
-        padding-left: 10px;
-        padding-right: 10px;
+        border-radius: 3px;
+        padding-left: 8px;
+        padding-right: 8px;
         padding-top: 5px;
         padding-bottom: 5px;
     }
     .val1_not_run {
-        font-size: 18px;
+        font-size: 16px;
         background-color: #000;
         color:white;
         border-radius: 5px;
@@ -112,20 +112,29 @@
             <!-- <img width="24%" alt="logo" src="{{url_for('static',filename='assets/logo.jpg')}}"> -->
         <table class="table">
             <tr>
-                <td width="25%">
+                <td>
                     <span class="title1">系统时间</span>
                 </td>
-                <td>
+                <td colspan=4>
                     <span class="val1" id="system_time">---</span>
                 </td>
             </tr>
+
             <tr>
-                <td width="25%">
+                <td>
                     <span class="title1">设备编号</span>
                 </td>
                 <td>
                     <span class="val1" id="device_id">---</span>
                 </td>
+                <td>
+                    <span class="title1">记录间隔</span>
+                </td>
+                <td>
+                    <span class="val1" id="record_interval">---</span>
+                    <span class="unit1" class="pull-right">小时/次</span>
+                </td>
+                
             </tr>
             <tr>
                 <td>
@@ -135,34 +144,29 @@
                     <span class="val1" id="run_time">---</span>
                     <span class="unit1" class="pull-right">天</span>
                 </td>
-            </tr>  
-            <tr>
-                <td>
-                    <span class="title1">记录间隔</span>
-                </td>
-                <td>
-                    <span class="val1" id="record_interval">---</span>
-                    <span class="unit1" class="pull-right">小时/次</span>
-                </td>
-            </tr>  
-            <tr>
                 <td>
                     <span class="title1">当前状态</span>
                 </td>
                 <td>
                     <span class="val1_run" id="run_status">----</span>
                 </td>
-            </tr>           
+            </tr>  
+         
         </table>
 
-        <div id="ch_1_temp" style="width: 350px;height:200px;"></div>
-        <div id="ch_1_hum" style="width: 350px;height:200px;"></div>
+        <!-- <div id="ch_1_temp" style="width: 350px;height:200px;"></div>
+        <div id="ch_1_hum" style="width: 350px;height:200px;"></div> -->
+
+        <div id="ch_1_temp_hum" style="width: 500px;height:250px;"></div>
+        <div id="ch_2_temp_hum" style="width: 500px;height:250px;"></div>
+
+        <a href="/history_chart" class="pull-right">更多图表...</a>
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
-                CH1 <span class="val1_state pull">开</span>
+                CH1
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -243,9 +247,9 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
-                Ch4 <span class="val1_state">开</span>
+                CH3
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -328,9 +332,9 @@
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
-                CH2 <span class="val1_state">开</span>
+                CH2
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -410,9 +414,9 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
-                CH4 <span class="val1_state">开</span>
+                CH4
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -503,11 +507,72 @@
 var REFRESSH_INTERVALS = 30;
 var t;
 
-var myChart_ch1_temp = echarts.init(document.getElementById('ch_1_temp'));
-var myChart_ch1_hum = echarts.init(document.getElementById('ch_1_hum'));
+// var myChart_ch1_temp = echarts.init(document.getElementById('ch_1_temp'));
+// var myChart_ch1_hum = echarts.init(document.getElementById('ch_1_hum'));
+var myChart_ch1_temp_hum = echarts.init(document.getElementById('ch_1_temp_hum'));
+var myChart_ch2_temp_hum = echarts.init(document.getElementById('ch_2_temp_hum'));
+// var myChart_ch3_temp_hum = echarts.init(document.getElementById('ch_3_temp_hum'));
+// var myChart_ch4_temp_hum = echarts.init(document.getElementById('ch_4_temp_hum'));
 
 function get_temp_hum_chart_data_by_ch(ch)
 {
+    // $.post(
+    //         "api/get_temp_hum_chart_data_by_ch", {
+    //             ch:ch
+    //         },
+    //         function(data, status) {
+    //             d = JSON.parse(data);
+    //             // console.log("d: " + d);
+    //             console.log("d0: " + d[0]);
+    //             console.log("d1: " + d[1]);
+
+    //             var option1 = {
+    //                 // color: ['#c23531','#2f4554', '#61a0a8'],
+    //                 color: ['#c23531'],
+    //                 title: {
+    //                     text: 'CH1 温度历史数据'
+    //                 },
+    //                 tooltip: {},
+    //                 legend: {
+    //                     data:['温度']
+    //                 },
+    //                 xAxis: {
+    //                     data: d[0]
+    //                 },
+    //                 yAxis: {},
+    //                 series: [{
+    //                     name: '时间',
+    //                     type: 'bar',
+    //                     data: d[1]
+    //                 }]
+    //             };
+    //             myChart_ch1_temp.setOption(option1);
+
+    //             var option1 = {
+    //                 color: ['#61a0a8'],
+    //                 title: {
+    //                    text: 'CH1 湿度历史数据'
+    //                 },
+    //                 tooltip: {},
+    //                 legend: {
+    //                     data:['湿度']
+    //                 },
+    //                 xAxis: {
+    //                     data: d[0]
+    //                 },
+    //                 yAxis: {},
+    //                 series: [{
+    //                     name: '时间',
+    //                     type: 'bar',
+    //                     data: d[2]
+    //                 }]
+    //             };
+    //             myChart_ch1_hum.setOption(option1);
+
+    //         }
+    //     );
+    var colors = ['#5793f3', '#d14a61', '#675bba'];
+
     $.post(
             "api/get_temp_hum_chart_data_by_ch", {
                 ch:ch
@@ -515,55 +580,141 @@ function get_temp_hum_chart_data_by_ch(ch)
             function(data, status) {
                 d = JSON.parse(data);
                 // console.log("d: " + d);
-                console.log("d0: " + d[0]);
-                console.log("d1: " + d[1]);
-
+                // console.log("d0: " + d[0]);
+                // console.log("d1: " + d[1]);
                 var option1 = {
                     // color: ['#c23531','#2f4554', '#61a0a8'],
-                    color: ['#c23531'],
+                    color: colors,
                     title: {
-                        text: 'CH1 温度历史数据'
+                        text: 'CH1 温度/湿度历史数据'
                     },
                     tooltip: {},
                     legend: {
-                        data:['温度']
+                        data:['温度°C', '湿度%']
                     },
-                    xAxis: {
-                        data: d[0]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '时间',
-                        type: 'bar',
-                        data: d[1]
-                    }]
-                };
-                myChart_ch1_temp.setOption(option1);
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
 
-                //-------------------------------------------------
-                var option1 = {
-                    color: ['#61a0a8'],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                            // axisLabel: {
+                            //     formatter: '{value} °C'
+                            // }
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                            // axisLabel: {
+                            //     formatter: '{value} %'
+                            // }
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch1_temp_hum.setOption(option1);
+
+                // the following are demos
+                var option2 = {
+                    // color: ['#c23531','#2f4554', '#61a0a8'],
+                    color: colors,
                     title: {
-                       text: 'CH1 湿度历史数据'
+                        text: 'CH2 温度/湿度历史数据'
                     },
                     tooltip: {},
                     legend: {
-                        data:['湿度']
+                        data:['温度°C', '湿度%']
                     },
-                    xAxis: {
-                        data: d[0]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '时间',
-                        type: 'bar',
-                        data: d[2]
-                    }]
-                };
-                myChart_ch1_hum.setOption(option1);
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                            // axisLabel: {
+                            //     formatter: '{value} °C'
+                            // }
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                            // axisLabel: {
+                            //     formatter: '{value} %'
+                            // }
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch2_temp_hum.setOption(option2);
+
 
             }
         );
+
+
+
+
+
+
+
 }
 
 function dashboard_get_info1()
@@ -604,6 +755,7 @@ $(document).ready(function() {
 
     dashboard_get_info1();
     get_temp_hum_chart_data_by_ch(1);
+
 
 });
 </script>

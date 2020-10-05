@@ -6,84 +6,256 @@
 </style>
 {% endblock %} {% block body%}
 <div class="row">
-
-    <div class="col-md-4">
+    <div class="col-md-6">
         <!-- <img src="/plot1.png" alt="CH1 DATA"> -->
-        <div id="ch_1_temp" style="width: 450px;height:250px;"></div>
+        <div id="ch_1_temp_hum" style="width: 600px;height:250px;"></div>
     </div>
 
-    <div class="col-md-4">
-        <div id="ch_1_hum" style="width: 450px;height:250px;"></div>
-    </div>
-
-    <div class="col-md-4">
-        
+    <div class="col-md-6">
+        <div id="ch_2_temp_hum" style="width: 600px;height:250px;"></div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <!-- <img src="/plot1.png" alt="CH1 DATA"> -->
+        <div id="ch_3_temp_hum" style="width: 600px;height:250px;"></div>
+    </div>
 
+    <div class="col-md-6">
+        <div id="ch_4_temp_hum" style="width: 600px;height:250px;"></div>
+    </div>
+</div>
 {% endblock %} {% block js%}
 {{ super() }}
 <script type="text/javascript">
 
-var myChart_ch1_temp = echarts.init(document.getElementById('ch_1_temp'));
-var myChart_ch1_hum = echarts.init(document.getElementById('ch_1_hum'));
-
+var myChart_ch1_temp_hum = echarts.init(document.getElementById('ch_1_temp_hum'));
+var myChart_ch2_temp_hum = echarts.init(document.getElementById('ch_2_temp_hum'));
+var myChart_ch3_temp_hum = echarts.init(document.getElementById('ch_3_temp_hum'));
+var myChart_ch4_temp_hum = echarts.init(document.getElementById('ch_4_temp_hum'));
+var channel;
 
 function get_temp_hum_chart_data_by_ch(ch)
 {
+    var colors = ['#5793f3', '#d14a61', '#675bba'];
+    
     $.post(
             "api/get_temp_hum_chart_data_by_ch", {
                 ch:ch
             },
             function(data, status) {
                 d = JSON.parse(data);
-                // console.log("d: " + d);
-                console.log("d0: " + d[0]);
-                console.log("d1: " + d[1]);
-
                 var option1 = {
-                    // color: ['#c23531','#2f4554', '#61a0a8'],
-                    color: ['#c23531'],
+                    color: colors,
                     title: {
-                        text: 'CH1 温度历史数据'
+                        text: 'CH1 温度/湿度历史数据'
                     },
-                    tooltip: {},
                     legend: {
-                        data:['温度']
+                        data:['温度°C', '湿度%']
                     },
-                    xAxis: {
-                        data: d[0]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '时间',
-                        type: 'bar',
-                        data: d[1]
-                    }]
-                };
-                myChart_ch1_temp.setOption(option1);
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
 
-                //-------------------------------------------------
-                var option1 = {
-                    color: ['#61a0a8'],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch1_temp_hum.setOption(option1) ;
+
+                var option2 = {
+                    color: colors,
                     title: {
-                        text: 'CH1 湿度历史数据'
+                        text: 'CH2 温度/湿度历史数据'
                     },
-                    tooltip: {},
                     legend: {
-                        data:['湿度']
+                        data:['温度°C', '湿度%']
                     },
-                    xAxis: {
-                        data: d[0]
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch2_temp_hum.setOption(option2) ;
+
+                var option3 = {
+                    color: colors,
+                    title: {
+                        text: 'CH3 温度/湿度历史数据'
                     },
-                    yAxis: {},
-                    series: [{
-                        name: '时间',
-                        type: 'bar',
-                        data: d[2]
-                    }]
-                };
-                myChart_ch1_hum.setOption(option1);
+                    legend: {
+                        data:['温度°C', '湿度%']
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch3_temp_hum.setOption(option3) ;
+
+                var option4 = {
+                    color: colors,
+                    title: {
+                        text: 'CH4 温度/湿度历史数据'
+                    },
+                    legend: {
+                        data:['温度°C', '湿度%']
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            data: d[0]
+                        }
+                    ],
+
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '温度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                        },
+                        {
+                            type: 'value',
+                            name: '湿度',
+                            axisLine: {
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                        }
+                    ],
+                    series: [
+                            {
+                                name: '温度',
+                                type: 'bar',
+                                data: d[1]
+                            },
+                            {
+                                name: '湿度',
+                                type: 'bar',
+                                data: d[2]
+                            }
+                        ]
+                    };
+                myChart_ch4_temp_hum.setOption(option4) ;
 
             }
         );

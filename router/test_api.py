@@ -145,7 +145,7 @@ print("\n")
 
 print("5，设置高级设置参数")
 # 0059 031f 03de 0058 0001 0000 0000
-b.advance_setting_param=29,999,90.0*10,1.9*10,1,1,0,1
+b.advance_setting_param=29,99,90.0*10,1.9*10,1,1,0,1
 time.sleep(0.2)
 print("\n")
 
