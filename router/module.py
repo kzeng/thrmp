@@ -614,3 +614,27 @@ def get_temp_hum_chart_data_by_ch():
     ch1_hum_list.reverse()
     return json.dumps([ch1_time_list,ch1_temp_list,ch1_hum_list])
 
+
+@module_bp.route('/api/set_sys_datetime', methods=['POST'])
+def set_sys_datetime():
+    b = Broker()
+    print('set_sys_datetime ...')
+    datetime_val = request.form["datetime_val"]
+    # 2020-10-06 21:50
+    d = datetime_val.split(" ")
+
+    year = int(d[0].split("-")[0][2:4])
+    month = int(d[0].split("-")[1])
+    day = int(d[0].split("-")[2])
+    hour = int(d[1].split(":")[0])
+    min = int(d[1].split(":")[1])
+    second = int(0)
+
+    print(year,month,day,0,hour,min,second)
+    b.datetime_setting=year,month,day,0,hour,min,second
+    return "set_sys_datetime: Set successfully."
+
+
+
+
+

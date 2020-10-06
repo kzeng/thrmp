@@ -28,6 +28,30 @@
 				</tr>
 			</table>
 
+			<h3>系统设置</h3>
+			<table class="table table-hover table-condensed">
+				<tr>
+					<td>系统时间</td>
+					<td>
+						<div class="form-group">
+							<div class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+								<input id="datetime_val" class="form-control" type="text" value="" readonly>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+							</div>
+							<input type="hidden" id="dtp_input1" value="" />
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="2">
+						<button class="btn btn-primary" id="btn_set_sys_datetime">
+						设置
+						</button>
+					</td>
+				</tr>
+			</table>
     </div>
     <div class="col-md-4">
     </div>
@@ -60,18 +84,24 @@ $(document).ready(function() {
 
     btn_get_device_settings();
 
-    $("#btn_set_device_settings").click(function(){
-				device_port_val 	= $("#port_val").val();
-				// device_baudrate_val = $("#baudrate_val").val();
-
-				// if(device_port_val=="" || device_baudrate_val=="")
-				// {
-				// 	alert("Invalid value.");
-				// 	return false;
-				// }
-                $.post(
-                "api/set_device_settings", {
-                    device_port_val: device_port_val,
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        format: 'yyyy-mm-dd hh:ii',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+		
+    $("#btn_set_sys_datetime").click(function(){
+		var datetime_val = $("#datetime_val").val();
+		console.log(datetime_val);
+		$.post(
+                "api/set_sys_datetime", {
+                    datetime_val: datetime_val,
                 },
                 function(data, status) {
                     console.log(data)            
@@ -79,7 +109,21 @@ $(document).ready(function() {
                 }
             );
 
-		});
+	});
+
+
+    $("#btn_set_device_settings").click(function(){
+		device_port_val = $("#port_val").val();
+		$.post(
+		"api/set_device_settings", {
+			device_port_val: device_port_val,
+		},
+		function(data, status) {
+			console.log(data)            
+			toastr["success"]("数据已设置.");
+		}
+	);
+	});
 
 });
 
