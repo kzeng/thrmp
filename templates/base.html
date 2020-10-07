@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon " type="images/x-icon" href="{{ url_for('static', filename='assets/favicon2.ico') }}">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='bs3/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='datetime/bootstrap-datetimepicker.min.css') }}">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='fa/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/webview.css') }}">
@@ -65,9 +63,6 @@
                     <li class="advance_setting_param"><a href="/advance_setting_param">仪表高级设置</a></li>
                     <li class="humidifier_energy_saving_settings_param"><a href="/humidifier_energy_saving_settings_param">加湿器控制设置</a></li>
                     <li class="air_conditioning_settings_param"><a href="/air_conditioning_settings_param">空调保护设置</a></li>
-                    <!-- <li class="device_adv_settings"><a href="#">使用时间限制</a></li> -->
-                    <!-- <li role="separator" class="divider"></li> -->
-                    <!-- <li><a href="#" data-toggle="modal" data-target="#myAbout">About ...</a></li> -->
                 </ul>
                 </li>
 
@@ -82,14 +77,13 @@
                         <li role="separator" class="divider"></li>
                         <li class="about"><a href="#" data-toggle="modal" data-target="#myAbout">关于...</a></li>
                     </ul>
-                    </li>
+                </li>
                 
-
             </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-    <br><br><br><br>
+    <br><br><br>
 
     <div class="modal fade" id="myAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
@@ -126,36 +120,8 @@
 
     {% block body%} {% endblock %}
 
-    <br><br>
+    <br>
     </div>
-
-    <div class="modal fade" id="myAbout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">About</h4>
-            </div>
-            <div class="modal-body">
-                <center>
-                  <img width="25%" alt="Brand" src="{{url_for('static',filename='assets/logo.jpg')}}"> 
-                  <!-- <h3>Webview</h3> -->
-                  <br>
-                    <h4 style="color: #aaa">
-                    温湿度控制记录仪管理平台
-                    </h4>
-                  <br><br>
-                  <!-- <button class="btn btn-lg btn-danger" id="btn_restart_gui">
-                  Restart Debug GUI
-                  &nbsp;&nbsp;
-                  <i class="glyphicon glyphicon-repeat"></i>
-                  </button> -->
-                  <!-- <br><br> -->
-                  </center>
-            </div>
-          </div>
-        </div>
-      </div>
 
     <!-- <nav class="navbar navbar-default navbar-fixed-bottom">
     <span style="color:#999">
@@ -163,8 +129,7 @@
         武汉兴达森科技有限公司专业养护室设备 &copy; 2020 <br>
     </center>
     </span>
-    </nav> -->
-          
+    </nav> -->      
 </body>
 <script src="{{ url_for('static', filename='bs3/js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='bs3/js/bootstrap.min.js') }}"></script>
