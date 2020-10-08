@@ -637,6 +637,31 @@ def set_sys_datetime():
     return "set_sys_datetime: Set successfully."
 
 
+@module_bp.route('/debug_command')
+def debug_command():
+    return render_template('debug_command.html', title='工程调试命令', curr_user=current_user.get_id())
 
+
+@module_bp.route('/api/clean_all_args', methods=['POST'])
+def clean_all_args():
+    b = Broker()
+    print('clean_all_args ...')
+    b.remove_all_param
+    return "clean_all_args: Set successfully."
+
+@module_bp.route('/api/clean_all_recorders', methods=['POST'])
+def clean_all_recorders():
+    b = Broker()
+    print('clean_all_recorders ...')
+    b.remove_all_records
+    return "clean_all_recorders: Set successfully."
+
+
+@module_bp.route('/api/clean_runtime', methods=['POST'])
+def clean_runtime():
+    b = Broker()
+    print('clean_runtime ...')
+    b.remove_run_time
+    return "clean_runtime: Set successfully."
 
 
