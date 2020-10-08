@@ -13,23 +13,28 @@
 		<table class="table table-hover table-condensed">
 			<tr >
 				<td>
-				<textarea id="debug_info" spellcheck="false" rows="25" cols="120" style="background-color:#FFFFCC; font-size: 12px"></textarea>
+				<textarea id="debug_info" spellcheck="false" rows="24" cols="120" style="background-color:#FFFFCC; font-size: 12px"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="cmd_str" style="width:550px;height:50px" placeholder="">
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="btn-lg btn-primary" id="btn_set_debug_cmd">
+					<input type="text" id="cmd_str" style="width:550px;height:32px" placeholder="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-primary" id="btn_set_debug_cmd">
 					Send
 					</button>
 					&nbsp;&nbsp;
-					<button class="btn-lg btn-success" id="btn_clear">
+					<button class="btn btn-success" id="btn_clear">
 					Clear
 					</button>
 				</td>
 			</tr>
-		</table>
+        </table>
+        
+        <div class="alert alert-info" role="alert">
+        例如： 主界面数据及状态， 格式：55 02 EE AA
+        </div>
+
     </div>
 
 </div>
