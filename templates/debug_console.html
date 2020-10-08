@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block css%}
+<style type="text/css">
+    .b1 {
+        color: blue;
+    }
+</style>
+{% endblock %} {% block body%}
+<div class="row">
+
+    <div class="col-md-12">
+        <h4>命令控制台</h4>
+
+		<table class="table table-hover table-condensed">
+			<tr >
+				<td>
+				<textarea id="debug_info" spellcheck="false" rows="25" cols="120" style="background-color:#FFFFCC; font-size: 12px"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" id="cmd_str" style="width:550px;height:50px" placeholder="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn-lg btn-primary" id="btn_set_debug_cmd">
+					Send
+					</button>
+					&nbsp;&nbsp;
+					<button class="btn-lg btn-success" id="btn_clear">
+					Clear
+					</button>
+				</td>
+			</tr>
+		</table>
+    </div>
+
+</div>
+
+{% endblock %} {% block js%}
+{{ super() }}
+<script type="text/javascript">
+
+function send_cmd()
+{
+    cmd_str = $("#cmd_str").val()
+    console.log(cmd_str);
+
+    $.post(
+        "api/set_debug_cmdstr",
+        {
+            cmd_str:cmd_str
+        },
+        function(data,status){
+            console.log("data: " + data);
+
+            $("#debug_info").append(data.replace(/\\r\\n/g, "\n") + "\n");
+
+            var textarea = document.getElementById('debug_info');
+            textarea.scrollTop = textarea.scrollHeight;
+            
+    });
+}
+
+$(document).ready(function() {
+
+    $("#btn_clear").click(function(){
+        $("#debug_info").html("");
+    })
+
+    document.onkeydown = function(e){ 
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode==13) {
+            send_cmd();
+        }
+    }
+
+    $("#btn_set_debug_cmd").click(function(){
+        send_cmd();
+    });
+
+});
+</script>
+{% endblock %}

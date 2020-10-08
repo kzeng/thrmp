@@ -34,3 +34,6 @@ def oct2bin(s):
 
 def bin2oct(s):
     return dec2oct(bin2dec(s))
+
+def cut(obj, sec):
+    return [obj[i:i+sec] for i in range(0,len(obj),sec)]

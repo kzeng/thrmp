@@ -1,6 +1,9 @@
 import serial
 import time
 
+from router.utility import *
+
+
 import serial.tools.list_ports
 import configparser
 
@@ -777,4 +780,29 @@ class Broker(serial.Serial):
         self.close()
         print("air_conditioning_settings_param ok...")
 
+
+    # send commands from console
+    def send_debug_cmdstr(self, cmdstr):
+        self.open()
+        self.flushInput()
+        self.flushOutput()
+        # cmd = [0x55, 0x02, 0xFA, 0xAA]
+        cmd = []
+        cmd_words = cut(cmdstr, 2)
+
+        for i in cmd_words:
+            cmd.append( int('0x'+ str(i), 16) )
+
+        self.write(cmd)
+        time.sleep(0.5)
+        buffer_string = b''
+        while self.inWaiting() > 0:
+            b=self.read(1)
+            time.sleep(0.0001)
+            buffer_string += b
+
+        self.close()
+        data = ''.join(['%02X ' %x  for x in buffer_string])
+        print("DATA: {}".format(data))
+        return(str(data))
 

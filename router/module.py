@@ -665,3 +665,17 @@ def clean_runtime():
     return "clean_runtime: Set successfully."
 
 
+@module_bp.route('/debug_console')
+def debug_console():
+    return render_template('debug_console.html', title='命令控制台', curr_user=current_user.get_id())
+
+
+@module_bp.route('/api/set_debug_cmdstr', methods=['POST'])
+def set_debug_cmdstr():
+    b = Broker()
+    print('set_debug_cmdstr ...')
+    cmd_str = str(request.form["cmd_str"]).replace(" ", "")
+    ret = b.send_debug_cmdstr(cmd_str)
+    return str(ret)
+
+
