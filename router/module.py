@@ -283,7 +283,9 @@ def get_current_channel_verify_data():
     print("get_current_channel_verify_data ...")
     current_channel_verify_data_dict = {}
     ch_data = b.current_channel_verify_data
-    ch_data_list = ch_data.split(" ")
+    ch_data_list = str(ch_data).split(" ")
+    print("ch_data_list...")
+    print(ch_data_list)
     for ch in (1,2,3,4):
         current_channel_verify_data_dict.update({"temp_offset_mark_" + str(ch) : int('0x' + ch_data_list[3], 16)})
         current_channel_verify_data_dict.update({"temp_offset_" + str(ch) : int('0x' + ch_data_list[4] + ch_data_list[5], 16)/10})
@@ -402,7 +404,7 @@ def send_all_area_data():
     all_data = []
     for v in ch_data_list2:
         one_data = []
-        one_data.append( str(int('0x' + v[20], 16)) + "/" + str(int('0x' + v[19], 16)) + "/" + str(int('0x' + v[18], 16)) + " " + str(int('0x' + v[17], 16)) + ":" + str(int('0x' + v[16], 16)) )
+        one_data.append( '20'+str(int('0x' + v[20], 16)) + "/" + str(int('0x' + v[19], 16)).rjust(2,'0') + "/" + str(int('0x' + v[18], 16)).rjust(2,'0') + " " + str(int('0x' + v[17], 16)).rjust(2,'0') + ":" + str(int('0x' + v[16], 16)).rjust(2,'0') )
         
         for idx in( 12, 14, 4, 6, 8, 10, 0, 2 ):
             if str(int('0x' + v[idx] + v[idx+1], 16)/10) == '0.0':
