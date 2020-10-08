@@ -5,3 +5,7 @@
 
 
 [![主界面](https://s1.ax1x.com/2020/10/08/0wuBlV.jpg)](https://imgchr.com/i/0wuBlV)
+
+[![0w8iAU.png](https://s1.ax1x.com/2020/10/08/0w8iAU.png)](https://imgchr.com/i/0w8iAU)
+
+[![0w8uB6.png](https://s1.ax1x.com/2020/10/08/0w8uB6.png)](https://imgchr.com/i/0w8uB6)
