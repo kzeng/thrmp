@@ -69,7 +69,7 @@ def dashboard_get_info1():
             run_status = "停止"
         dashboard_get_info1_dict.update({"run_status" : run_status })
 
-        dashboard_get_info1_dict.update({"run_time" : str( round(int('0x' + data_list[6] + data_list[7], 16)/24)) })
+        dashboard_get_info1_dict.update({"run_time" : str( int('0x' + data_list[6] + data_list[7], 16)) })
 
         dashboard_get_info1_dict.update({"record_interval" : str( round(int('0x' + data_list[8], 16))) })
         
