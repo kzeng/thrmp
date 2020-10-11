@@ -382,51 +382,51 @@ def set_humidifier_energy_saving_settings_param():
 
 @module_bp.route('/send_all_area_data')
 def send_all_area_data():
-    # try:
-    b = Broker()
-    print('send_all_area_data .')
-    ch_data = b.send_all_area_data
-    ch_data_list = ch_data.split(" ")
+    try:
+        b = Broker()
+        print('send_all_area_data .')
+        ch_data = b.send_all_area_data
+        ch_data_list = ch_data.split(" ")
 
-    # DATA: 55 0C F0 01 01 14 17 01 01 01 01 01 01 AA
-    ch_data_list1 = ch_data_list[6:len(ch_data_list)-2]
+        # DATA: 55 0C F0 01 01 14 17 01 01 01 01 01 01 AA
+        ch_data_list1 = ch_data_list[6:len(ch_data_list)-2]
 
-    ch_data_list2 = []
+        ch_data_list2 = []
 
-    for i in range(0, len(ch_data_list1), 21):
-        k = ch_data_list1[i:i+21]
-        ch_data_list2.append(k)
-    
-    f = open('./static/files/history.csv','w',newline='')
-    csv_write = csv.writer(f,dialect='excel')
-    csv_write.writerow(("时间", "CH1温度", "CH1湿度", "CH2温度", "CH2湿度", "CH3温度", "CH3湿度", "CH4温度", "CH4湿度"))
-
-    all_data = []
-    for v in ch_data_list2:
-        one_data = []
-        one_data.append( '20'+str(int('0x' + v[20], 16)) + "/" + str(int('0x' + v[19], 16)).rjust(2,'0') + "/" + str(int('0x' + v[18], 16)).rjust(2,'0') + " " + str(int('0x' + v[17], 16)).rjust(2,'0') + ":" + str(int('0x' + v[16], 16)).rjust(2,'0') )
+        for i in range(0, len(ch_data_list1), 21):
+            k = ch_data_list1[i:i+21]
+            ch_data_list2.append(k)
         
-        for idx in( 12, 14, 4, 6, 8, 10, 0, 2 ):
-            if str(int('0x' + v[idx] + v[idx+1], 16)/10) == '0.0':
-                cd = '-'
-            else:
-                cd = str(int('0x' + v[idx] + v[idx+1], 16)/10)
-            one_data.append(cd)
+        f = open('./static/files/history.csv','w',newline='')
+        csv_write = csv.writer(f,dialect='excel')
+        csv_write.writerow(("时间", "CH1温度", "CH1湿度", "CH2温度", "CH2湿度", "CH3温度", "CH3湿度", "CH4温度", "CH4湿度"))
 
-        all_data.append(one_data)
-        # write a row to csv file ---------------------------------
-        csv_write.writerow(one_data)
+        all_data = []
+        for v in ch_data_list2:
+            one_data = []
+            one_data.append( '20'+str(int('0x' + v[20], 16)) + "/" + str(int('0x' + v[19], 16)).rjust(2,'0') + "/" + str(int('0x' + v[18], 16)).rjust(2,'0') + " " + str(int('0x' + v[17], 16)).rjust(2,'0') + ":" + str(int('0x' + v[16], 16)).rjust(2,'0') )
+            
+            for idx in( 12, 14, 4, 6, 8, 10, 0, 2 ):
+                if str(int('0x' + v[idx] + v[idx+1], 16)/10) == '0.0':
+                    cd = '-'
+                else:
+                    cd = str(int('0x' + v[idx] + v[idx+1], 16)/10)
+                one_data.append(cd)
 
-    f.close()
-    print('--------------------------')
-    print(all_data)
-    print('--------------------------')
-    return render_template('send_all_area_data.html', all_data=all_data, title='历史数据查询', curr_user=current_user.get_id())        
-    # except:
-    #     print("try again ...")
-    #     time.sleep(1)
-    #     return render_template('hint.html', title='温馨提示', curr_user=current_user.get_id())    
+            all_data.append(one_data)
+            # write a row to csv file ---------------------------------
+            csv_write.writerow(one_data)
 
+        f.close()
+        print('--------------------------')
+        print(all_data)
+        print('--------------------------')
+        return render_template('send_all_area_data.html', all_data=all_data, title='历史数据查询', curr_user=current_user.get_id())        
+    except:
+        print("try again ...")
+        time.sleep(3)
+        # return render_template('hint.html', title='温馨提示', curr_user=current_user.get_id())    
+        return send_all_area_data()
 
 @module_bp.route('/air_conditioning_settings_param')
 def air_conditioning_settings_param():
